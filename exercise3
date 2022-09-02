@@ -13,7 +13,7 @@ private class skedObjectSelector_Practice {
         DateTime finish = start.addMinutes(duration);
         
         
-        // Data set up
+        // set up Data.
         
         sked__region__c region = new sked__region__c(
             Name = 'Sydney',
@@ -55,7 +55,7 @@ private class skedObjectSelector_Practice {
         insert new List<sked__Resource__c>{resource, notRelevantResource};
             resourceIds.add(resource.Id);
         
-        // Creating first activity in the past
+        // Creating  the first activity in the past
         
         sked__Activity__c firstActivity = new sked__Activity__c(
             sked__Address__c 	= '28 Tuckett Rd, Salisbury, Queensland, AUS',
@@ -79,7 +79,7 @@ private class skedObjectSelector_Practice {
                                                         WHERE Id IN :resourceIds AND sked__Is_Active__c = true];
         Test.startTest();
         
-        // Init new selector
+        // Init the  new selector
         
         skedObjectSelector resourceSelector = skedObjectSelector.newInstance(sked__Resource__c.SObjectType);
         
