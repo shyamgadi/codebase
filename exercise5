@@ -1,8 +1,10 @@
 //skedModels
 
-global class skedModels {
+Global class skedModels 
+{
 
-    public virtual class job extends skedBaseModels.job {
+    public virtual class job extends skedBaseModels.job 
+    {
         public List<job> followups {get;set;}
         public List<jobAllocation> allocations {get;set;}
 
@@ -18,7 +20,8 @@ global class skedModels {
         }
     }
 
-    public virtual class availability extends skedBaseModels.availability {
+    public virtual class availability extends skedBaseModels.availability 
+    {
         public availability(sked__Availability__c skedAvailability) {
             super(skedAvailability);
         }
@@ -54,7 +57,8 @@ global class skedModels {
         public transient skedBaseModels.event previousEvent {get;set;}
         public transient skedBaseModels.event nextEvent {get;set;}
 
-        public jobAllocation() {
+        public jobAllocation() 
+	{
             this.isQualified = true;
             this.isAvailable = true;
             this.noHomeAddress = false;
@@ -68,7 +72,7 @@ global class skedModels {
         }
     }
 
-    global virtual class resource extends skedBaseModels.resource {
+    Global virtual class resource extends skedBaseModels.resource {
         public resource() {
 
         }
@@ -153,7 +157,9 @@ global class skedModels {
         public DateTime startTimeValue {get;set;}
         public DateTime endTimeValue {get;set;}
         public string dateISO {get;set;}
-        // Decription: has a tour was scheduled on this time slot
+	
+        // Decription: It has a tour was scheduled on this time slot..
+	
         public boolean tourBooked {get;set;}
 
         public TimeSlotModel() {
@@ -169,9 +175,9 @@ global class skedModels {
     }
 }
 
-//skedBaseModels
+//skedBaseModels..
 
-global class skedBaseModels {
+Global class skedBaseModels {
     
     public virtual class event implements Comparable {
         public string eventType {get;set;}
@@ -190,13 +196,16 @@ global class skedBaseModels {
         public transient DateTime finish {get;set;}
         public transient Location geoLocation {get;set;}
         
-        public Integer compareTo(Object compareTo) {
+        public Integer compareTo(Object compareTo) 
+	{
             event compareToRecord = (event)compareTo;
             Integer returnValue = 0;
             
-            if (start > compareToRecord.start) {
+            if (start > compareToRecord.start) 
+	    {
                 returnValue = 1;
-            } else if (start < compareToRecord.start) {
+            } else if (start < compareToRecord.start) 
+	    {
                 returnValue = -1;
             }
             return returnValue;   
@@ -219,7 +228,8 @@ global class skedBaseModels {
         
         public job() {}
         
-        public job(sked__Job__c skedJob) {
+        public job(sked__Job__c skedJob) 
+	{
             this.eventType = 'job';
             this.id = skedJob.Id;
             this.name = skedJob.Name;
@@ -245,7 +255,8 @@ global class skedBaseModels {
             this.geoLocation = skedJob.sked__GeoLocation__c;
         }
         
-        public void loadJobTags(List<sked__Job_Tag__c> jobTags) {
+        public void loadJobTags(List<sked__Job_Tag__c> jobTags) 
+	{
             this.tags = new List<tag>();
             for (sked__Job_Tag__c jobTag : jobTags) {
                 tag tagItem = new tag();
@@ -257,7 +268,8 @@ global class skedBaseModels {
         }
     }
     
-    public virtual class availability extends event {
+    public virtual class availability extends event 
+    {
         public availability(sked__Availability__c skedAvailability) {
             this.eventType = 'availability';
             this.id = skedAvailability.Id;
@@ -272,15 +284,19 @@ global class skedBaseModels {
         }
     }
     
-    public virtual class resourceShift extends event {
-        public resourceShift(sked__Resource_Shift__c skedResourceShift) {
+    public virtual class resourceShift extends event 
+    {
+        public resourceShift(sked__Resource_Shift__c skedResourceShift) 
+	{
             System.debug('CHECKCHECK');
             this.eventType = 'shift';
             this.id = skedResourceShift.Id;
             this.name = skedResourceShift.Name;
             this.timezoneSidId='America/Chicago';
             System.debug('STARTTIME'+skedResourceShift.sked__Shift__r.sked__Start__c);
+	    
             // this.timezoneSidId = skedResourceShift.sked__Resource__r.sked__Primary_Region__r.sked__Timezone__c;
+	    
             this.start = skedResourceShift.sked__Shift__r.sked__Start__c;
             System.debug('Start'+this.start);
             this.finish = skedResourceShift.sked__Shift__r.sked__End1__c;
@@ -292,7 +308,8 @@ global class skedBaseModels {
         }
     }
 
-    public virtual class activity extends event {
+    public virtual class activity extends event 
+    {
         public activity(sked__Activity__c skedActivity) {
             this.eventType = 'activity';
             this.id = skedActivity.Id;
@@ -308,14 +325,16 @@ global class skedBaseModels {
         }
     }
     
-    public virtual class jobAllocation extends event {
+    public virtual class jobAllocation extends event 
+    {
         public string jobId {get;set;}
         public string resourceId {get;set;}
         public string status {get;set;}
         
         public jobAllocation() {}
         
-        public jobAllocation(sked__Job_Allocation__c skedAllocation) {
+        public jobAllocation(sked__Job_Allocation__c skedAllocation)
+	{
             this.eventType = 'jobAllocation';
             this.id = skedAllocation.Id;
             this.name = skedAllocation.Name;
@@ -333,7 +352,8 @@ global class skedBaseModels {
         }
     }
     
-    public virtual class resource {
+    public virtual class resource 
+    {
         public string id {get;set;}
         public string name {get;set;}
         public string category {get;set;}
@@ -352,7 +372,8 @@ global class skedBaseModels {
 
         public resource() {}
         
-        public resource(sked__Resource__c skedResource) {
+        public resource(sked__Resource__c skedResource) 
+	{
             this.id = skedResource.Id;
             this.name = skedResource.Name;
             this.category = skedResource.sked__Category__c;
@@ -491,7 +512,8 @@ global virtual class skedResourceAvailabilityBase {
     }
 
     /**********************************************************Private methods********************************************************************/
-    private void loadWorkingTime(Map<Id, resourceModel> mapResource, Set<Id> resourceIds, string timezoneSidId) {
+    private void loadWorkingTime(Map<Id, resourceModel> mapResource, Set<Id> resourceIds, string timezoneSidId)
+    {
         DateTime currentTime = system.now();
 
         List<sked__Availability_Template_Resource__c> templateResourceList = [SELECT sked__Resource__c, sked__Availability_Template__c
@@ -666,7 +688,8 @@ global virtual class skedResourceAvailabilityBase {
     }
 
     /**********************************************************Protected methods********************************************************************/
-    protected virtual Map<Id, sked__Resource__c> getResourceWithAvailabilities(Set<Id> resourceIds, DateTime startTime, DateTime endTime) {
+    protected virtual Map<Id, sked__Resource__c> getResourceWithAvailabilities(Set<Id> resourceIds, DateTime startTime, DateTime endTime) 
+    {
         System.debug('CHECKSTART'+startTime);
         System.debug('CHECKFinish'+endTime);
 
@@ -708,8 +731,8 @@ global virtual class skedResourceAvailabilityBase {
 
     /**********************************************************Nested classes********************************************************************/
     global class resourceModel extends skedModels.resource {
-        public transient Map<string, dateslotModel> mapDateslot {get;set;}
-        public transient List<skedBaseModels.event> allEvents {get;set;}
+        public transient Map<string, dateslotModel> mapDateslot {Get;Set;}
+        public transient List<skedBaseModels.event> allEvents {Get;Set;}
 
         public resourceModel(sked__Resource__c skedResource) {
             super(skedResource);
@@ -718,18 +741,19 @@ global virtual class skedResourceAvailabilityBase {
     }
 
     global class dateslotModel {
-        public string stringValue {get;set;}
-        public Date dateValue {get;set;}
-        public DateTime start {get;set;}
-        public DateTime finish {get;set;}
-        public string weekday {get;set;}
-        public List<skedBaseModels.event> events {get;set;}
+        public string stringValue {Get;Set;;}
+        public Date dateValue {Get;Set;}
+        public DateTime start {Get;Set;}
+        public DateTime finish {Get;Set;}
+        public string weekday {Get;Set;}
+        public List<skedBaseModels.event> events {Get;Set;}
 
         public dateslotModel() {
             this.events = new List<skedBaseModels.event>();
         }
 
-        public skedBaseModels.event addEvent(DateTime startTime, DateTime endTime, string eventType, boolean isAvailable) {
+        public skedBaseModels.event addEvent(DateTime startTime, DateTime endTime, string eventType, boolean isAvailable) 
+	{
             return addEvent(startTime, endTime, eventType, isAvailable, null);
         }
 
@@ -748,11 +772,13 @@ global virtual class skedResourceAvailabilityBase {
             return null;
         }
 
-        private void addAvailableBlock(DateTime startTime, DateTime endTime) {
+        private void addAvailableBlock(DateTime startTime, DateTime endTime) 
+	{
             List<skedBaseModels.event> newEvents = new List<skedBaseModels.event>();
             Set<DateTime> removedEvents = new Set<DateTime>();
 
-            for (skedBaseModels.event eventItem : this.events) {
+            for (skedBaseModels.event eventItem : this.events) 
+	    {
                 if (eventItem.start < startTime && startTime < eventItem.finish) {
                     if (endTime < eventItem.finish) {
                         skedBaseModels.event newEvent = new skedBaseModels.event();
