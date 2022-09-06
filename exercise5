@@ -109,7 +109,7 @@ Global class skedModels
         }
         public cancellationOption(string value, string text, boolean selected) {
             super(value, text, selected);
-            this.requireComments = false;
+            
         }
     }
 
