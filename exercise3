@@ -15,14 +15,14 @@ private class skedObjectSelector_Practice {
         
         // set up Data.
         
-        sked__region__c region = new sked__region__c(
+        sked__region__c reg = new sked__region__c(
             Name = 'Sydney',
             sked__Timezone__c = 'brisbaneTimezone',
             sked__Country_Code__c = 'AU'
         );
-        insert region;
+        insert reg;
         
-        Account acc = new Account(
+        Account ac = new Account(
             Name = 'Test',
             BillingCity = 'Minnetonka',
             BillingCountry = 'US',
@@ -31,8 +31,8 @@ private class skedObjectSelector_Practice {
             BillingStreet = '5995 Opus Parkway',
             Phone = '(716) 219-2400'
         );
-        insert acc;
-        sked__job__c job = new sked__job__c(
+        insert ac;
+        sked__job__c jobs = new sked__job__c(
             sked__type__c = 'Initial Nursing Visit',
             sked__start__c = start,
             sked__finish__c = finish,
@@ -41,13 +41,13 @@ private class skedObjectSelector_Practice {
             sked__job_status__c = 'In Progress',
             sked__account__c = acc.id
         );
-        insert job;
+        insert jobs;
         sked__Resource__c resource = new sked__Resource__c(
             name 					= 'Test',
             sked__Resource_Type__c 	= 'Person',
             sked__Primary_Region__c = region.Id,
             sked__Category__c 		= 'Customer Service',
-            sked__Country_Code__c 	= 'AU',
+            sked__Country_Code__c 	= 'AUS',
             sked__Is_Active__c      = True,
             sked__Home_Address__c 	= '24 Tuckett Rd, Salisbury, Queensland, AUS'
         );
@@ -66,12 +66,12 @@ private class skedObjectSelector_Practice {
         );
         insert new List<sked__Activity__c>{firstActivity};
             
-            sked__job_allocation__c joballocation = new sked__job_allocation__c(
+            sked__job_allocation__c newjoballocation = new sked__job_allocation__c(
                 sked__job__c = job.id,
                 sked__resource__c = resource.id,
                 sked__status__c = 'In Progress'
             );
-        insert joballocation;
+        insert newjoballocation;
         // sub query for the sked__Activities__c list based on the record ID
         
         List<sked__Resource__c> resourceActivityList = [SELECT id, (SELECT id
