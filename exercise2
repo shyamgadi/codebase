@@ -40,9 +40,9 @@ public class skedJobTriggerHandler {
     public static void onCalloutResponse(Set<Id> contactIds) 
     {
         try{
-            List<Contact> conDetailList = [SELECT id, Phone,LastName FROM Contact WHERE Id IN : conIds LIMIT 1];
-            if(conDetailList.size()>0){
-                String phone = conDetailList[0].Phone;
+            List<Contact> contactDetailList = [SELECT id, Phone,LastName FROM Contact WHERE Id IN : conIds LIMIT 1];
+            if(contactDetailList.size()>0){
+                String phone = contactDetailList[0].Phone;
                 String countryCode = 'US';
                 String message = 'working on the exercise';
                 sked.ApiResult.Sms response = sked.SkeduloAPI.sms(phone, countryCode, message );
