@@ -1,4 +1,4 @@
-trigger skedJobTrigger on sked__Job__c (after insert,after update, before delete, after delete) 
+trigger skedJobTrigger on sked__Job__c (after insert,after update) 
 {
     try {
         if (trigger.isAfter) {
@@ -14,15 +14,15 @@ trigger skedJobTrigger on sked__Job__c (after insert,after update, before delete
 //Apex Classes(Handler)
 
 public class skedJobTriggerHandler {
-    Public Static Set<Id> conIds = new Set<Id>();
+    Public Static Set<Id> contactIds = new Set<Id>();
     public static void onAfterInsert(List<sked__job__c> jobList) {
         for(sked__job__c job : jobList) {
             if(job.sked__Job_Status__c == 'complete' && !String.isBlank(job.sked__Contact__c))
             {
-                conIds.add(job.sked__Contact__c);
+                contactIds.add(job.sked__Contact__c);
             }
         }
-        onCalloutResponse(conIds);
+        onCalloutResponse(contactIds);
     }
     public static void onAfterUpdate(List<sked__job__c> newJobValues, Map<id, sked__job__c> map_id_old) 
     {
@@ -33,17 +33,17 @@ public class skedJobTriggerHandler {
                 conIds.add(job.sked__Contact__c);
             }
         }
-        onCalloutResponse(conIds);
+        onCalloutResponse(contactIds);
     } 
     
     @future (callout=true) 
-    public static void onCalloutResponse(Set<Id> conIds) 
+    public static void onCalloutResponse(Set<Id> contactIds) 
     {
         try{
             List<Contact> conDetailList = [SELECT id, Phone,LastName FROM Contact WHERE Id IN : conIds LIMIT 1];
             if(conDetailList.size()>0){
                 String phone = conDetailList[0].Phone;
-                String countryCode = 'IN';
+                String countryCode = 'US';
                 String message = 'working on the exercise';
                 sked.ApiResult.Sms response = sked.SkeduloAPI.sms(phone, countryCode, message );
                 if (response.isSuccess()) {
